@@ -23,68 +23,17 @@
     FAPI Deployments by Hour
 </h1>
 
+<body>
+    <div id="FapiDeployment">
+        
+    </div>
+</body>
+
 @section Scripts {
     <script src="http://d3js.org/d3.v3.js"></script>
     <script>
-        d3.csv('/Home/Csv', function (error, rows) {
-            var data = [];
-            for (var i = 0; i < 24; i++) {
-                data[i] = 0;
-            }
-
-            rows.forEach(function (row) {
-                console.log(row);
-                var format = d3.time.format("%Y/%m/%d %I:%M %p");
-                var date = format.parse(row.TimeStamp);
-                var hour = date.getHours();
-                data[hour]++;
-            });
-            console.log(data);
-
-
-            //Width and height
-            var w = 1000;
-            var h = 150;
-            var barPadding = 5;
-            var hScale = 50;
-            var hMargin = 10;
-
-            //Create SVG element
-            var svg = d3.select("body")
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h + hMargin);
-            svg.selectAll("rect")
-                .data(data)
-                .enter()
-                .append("rect")
-                .attr("x", function (d, i) {
-                    return i * (w / data.length);
-                })
-                .attr("y", function (d) {
-                    return h - (d * hScale);
-                })
-                .attr("width", w / data.length - barPadding)
-                .attr("height", function (d) {
-                    return d * hScale;
-                })
-                .attr("fill", "teal");
-
-            //Labels
-            svg.selectAll("text")
-                .data(data)
-                .enter()
-                .append("text")
-                .text(function(d, i) {
-                    return (i < 10 ? '0' : '') + i.toString() + ':00';
-                })
-                .attr("x", function(d, i) {
-                    return i * (w / data.length) + 5;
-                })
-                .attr("y", h + hMargin)
-                .attr("font-family", "sans-serif")
-                .attr("font-size", "10px")
-                .attr("fill", "black");
+        d3.csv('/Home/FapiDeployment', function (error, rows) {
+            window.Viz.Graphs.fapiDeployment(rows, 'div#FapiDeployment');
         });
     </script>
 }

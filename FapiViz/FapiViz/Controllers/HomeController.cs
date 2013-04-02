@@ -17,8 +17,8 @@ namespace FapiViz.Controllers
             return View();
         }
 
-        // GET: /Home/Csv
-        public ContentResult Csv()
+        // GET: /Home/FapiDeployment
+        public ContentResult FapiDeployment()
         {
             var handler = new HttpClientHandler
                 {
